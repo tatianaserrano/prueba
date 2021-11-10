@@ -1,9 +1,10 @@
 import express, { response } from 'express';
 import isAdmin from './middlewares/admin';
 import cancionesRoutes from './routes/canciones';
+import config from './config/config';
 
 const app = express();
-const port = 3000;
+//const port = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -26,10 +27,12 @@ app.get('/prueba', async (req, res) => {
     console.log(error);
   })
 
+  const response = await promesa;
+
   console.log('otra respuesta')
   //res.status(200).send("<p>some html</p>");
 });
 
-app.listen(port, () => {
-  return console.log(`server is listening on ${port}`);
+app.listen(config.PORT, () => {
+  return console.log(`server is listening on ${config.PORT}`);
 });

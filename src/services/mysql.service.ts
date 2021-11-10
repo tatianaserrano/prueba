@@ -1,14 +1,15 @@
-import mysql from 'mysql';
+import mysql from 'mysql2';
+import config from '../config/config';
 
 const getConnection = () => {
     const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'prueba123',
-        database: 'prueba',
-        port: 3306
+        host: config.DB_HOST,
+        user: config.DB_USER,
+        password: config.DB_PASSWORD,
+        database: config.DATABASE,
+        port: +config.DB_PORT
     });
-    connection.connect(function (error) {
+    connection.connect((error) => {
         if (error) {
             throw error;
         } else {
