@@ -1,6 +1,6 @@
 import executeQuery from "../services/mysql.service";
 
-const obtenerCanciones = async (req, res) => {
+const obtenerCanciones = async (req, res, next) => {
     await executeQuery('SELECT * FROM cancion').then(response => {
         const data = {
             message: `${response.length} datos encontrados`,
@@ -8,12 +8,17 @@ const obtenerCanciones = async (req, res) => {
         }
         res.status(200).json(data);
     }).catch(error => {
-        res.status(500).send(error);
-    })
+        next(error);
+    });
 }
-const obtenerCancion = async(req, res) => {
-    const response = await executeQuery(`SELECT * FROM cancion WHERE idcancion = ${req.params.id}`)
-    res.status(200).json(response[0]);
+const obtenerCancion = async(req, res, next) => {
+    const { id } = req.params;
+    try{
+        const response = await executeQuery(`SELECT * FROM cancion WHERE idcancion = ${id}`)
+        res.status(200).json(response[0]);
+    }catch(error){
+        next(error);
+    }
 }
 const agregarCancion = async (req, res) => {
     const {nombre, genero, artista} = req.body;

@@ -1,7 +1,8 @@
 import mysql from 'mysql2';
+import Connection from 'mysql2/typings/mysql/lib/Connection';
 import config from '../config/config';
 
-const getConnection = () => {
+const getConnection = (): Connection => {
     const connection = mysql.createConnection({
         host: config.DB_HOST,
         user: config.DB_USER,
@@ -29,7 +30,8 @@ const executeQuery = (query: string): Promise<any> => {
                 }else{
                     resolve(result);
                 }
-            })
+            });
+            connection.end(() => console.log('conexion cerrada'));
         }catch(error){
             console.log(error)
             reject(error);
