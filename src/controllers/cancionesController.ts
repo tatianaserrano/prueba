@@ -22,6 +22,7 @@ const obtenerCancion = async(req, res, next) => {
 }
 const agregarCancion = async (req, res) => {
     const {nombre, genero, artista} = req.body;
+    console.log(req)
     const response = await executeQuery(`INSERT INTO cancion (nombre, genero, artista) VALUES ('${nombre}', '${genero}', '${artista}' );`);
     res.status(201).json({message: 'created', id: response.insertId});
 }

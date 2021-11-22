@@ -61,6 +61,6 @@ app.get('/prueba', async (req, res) => {
   res.status(200).send({mayor});
 });
 
-app.listen(config.PORT, () => {
+app.listen(3000, () => {
   return console.log(`server is listening on ${config.PORT}`);
 });
