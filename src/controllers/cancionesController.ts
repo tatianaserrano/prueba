@@ -30,10 +30,18 @@ const actualizarCancion = async (req, res) => {
     const response = await executeQuery(`UPDATE cancion SET nombre = '${nombre}', genero = '${genero}', artista = '${artista}' WHERE (idcancion = '${req.params.id}');`);
     res.status(200).json({message: 'updated', id: req.params.id});
 }
-const eliminarCancion = async (req, res) => {
-    const response = await executeQuery(`DELETE FROM cancion WHERE (idcancion = '${req.params.id}');`)
-    console.log(response)
-    res.status(200).json({message: 'deleted', id: req.params.id});
+const eliminarCancion = async (req, res, next) => {
+    try{
+        const response = await executeQuery(`DELETE FROM cancion WHERE (idcancion = '${req.params.id}');`)
+        console.log(response)
+        if(response.affectedRows > 0){
+            res.json({message: 'deleted'});
+        }else{
+            res.status(404).json({message: `No existe registro con id: ${req.params.id}`})
+        }
+    }catch(error){
+        next(error);
+    }
 }
 
 
