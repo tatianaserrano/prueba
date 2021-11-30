@@ -1,9 +1,9 @@
 import express, { response } from 'express';
-import isAdmin from './middlewares/admin';
 import cancionesRoutes from './routes/canciones';
 import config from './config/config';
 import playlistRoutes from './routes/playlists';
-
+import usuariosRutas from './routes/usuarios';
+import errorHandler from './middlewares/errors';
 const app = express();
 //const port = 3000;
 
@@ -18,8 +18,12 @@ app.use((_, res, next) => {
   next();
 });
 
+
 cancionesRoutes(app);
 playlistRoutes(app);
+usuariosRutas(app);
+
+app.use(errorHandler);
 
 app.get('/prueba', async (req, res) => {
   const datos = {
